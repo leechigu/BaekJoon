@@ -1,5 +1,5 @@
 public class PermutationTest {
-   
+
     public void nextPermutation(int[] nums) {
         //뒤에서 부터 탐색하면서 오름차순이 깨지는 인덱스를 확인 (a)
         int a = nums.length-2;
