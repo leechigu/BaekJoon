@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class baekjoon15649 {
+public class baekjoon15650 {
     static int n;
     static int m;
     static int[] resultArray;
@@ -20,9 +20,7 @@ public class baekjoon15649 {
                 isVisited[i] =false;
             }
         }
-
     }
-
     static void print(){
         String temp = "";
         for(int i=0;i<isVisited.length;i++){
@@ -34,7 +32,6 @@ public class baekjoon15649 {
             result.add(temp);
         }
     }
-
     public static void main(String[] args) {
         result = new ArrayList<>();
         Scanner sc  = new Scanner(System.in);
@@ -54,5 +51,4 @@ public class baekjoon15649 {
             System.out.println(result.get(i));
         }
     }
-
 }
