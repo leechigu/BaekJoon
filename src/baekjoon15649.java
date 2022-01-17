@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class baekjoon15649 {
@@ -7,7 +6,6 @@ public class baekjoon15649 {
     static int[] resultArray;
     static boolean[] isVisited;
     static int[] initArray;
-    static ArrayList<String> result;
     public static void permutation(int depth){
         if(depth ==m){
             print();
@@ -16,6 +14,7 @@ public class baekjoon15649 {
         for(int i=0;i<n;i++){
             if(!isVisited[i]){
                 isVisited[i] =true;
+                resultArray[depth] =initArray[i];
                 permutation(depth+1);
                 isVisited[i] =false;
             }
@@ -24,19 +23,13 @@ public class baekjoon15649 {
     }
 
     static void print(){
-        String temp = "";
-        for(int i=0;i<isVisited.length;i++){
-            if(isVisited[i]){
-                temp +=Integer.toString(initArray[i])+" ";
-            }
+        for(int i=0;i<m;i++){
+            System.out.print(resultArray[i] + " ");
         }
-        if(!result.contains(temp)){
-            result.add(temp);
-        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
-        result = new ArrayList<>();
         Scanner sc  = new Scanner(System.in);
         n = sc.nextInt();
         m = sc.nextInt();
@@ -50,9 +43,7 @@ public class baekjoon15649 {
             isVisited[i] =false;
         }
         permutation(0);
-        for(int i = 0; i<result.size();i++){
-            System.out.println(result.get(i));
-        }
+
     }
 
 }
