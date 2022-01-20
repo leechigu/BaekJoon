@@ -2,45 +2,30 @@ import java.util.Scanner;
 
 public class baekjoon15652 {
 
-    static boolean[][] arr;
+    static int[] arr;
     static int n,m;
 
-    static void perm(int num){
-        if(num==m){
-            setnum();
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        n = in.nextInt();
+        m = in.nextInt();
+
+        arr = new int[m];
+        dfs(1,0);
+
+    }
+
+    public static void dfs(int at,int depth){
+        if(depth ==m){
+            for(int i=0;i<m;i++){
+                System.out.print(arr[i]+" ");
+            }
+            System.out.println();
             return;
         }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(!arr[i][j]){
-                    arr[i][j] =true;
-                    perm(num+1);
-                    arr[i][j] =false;
-                }
-            }
+        for(int i=at;i<=n;i++){
+            arr[depth]=i;
+            dfs(i,depth+1);
         }
-    }
-    static void setnum(){
-        String temp = "";
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(arr[i][j]){
-                    temp += Integer.toString(i+1)+" ";
-                }
-            }
-        }
-        System.out.println(temp);
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        n = sc.nextInt();
-        m = sc.nextInt();
-        arr = new boolean[n][];
-        for(int i=0;i<n;i++){
-            arr[i] = new boolean[m];
-        }
-        perm(0);
-
     }
 }
