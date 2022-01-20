@@ -27,7 +27,7 @@ public class baekjoon15650_2 {
         }
         for(int i=at;i<=n;i++){
             arr[depth]=i;
-            dfs(i,depth+1);
+            dfs(i+1,depth+1);
         }
     }
 }
