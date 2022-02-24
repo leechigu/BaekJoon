@@ -1,3 +1,5 @@
+package 정렬;
+
 import java.util.*;
 public class 단어정렬 {
     public static void main(String[] args) {
