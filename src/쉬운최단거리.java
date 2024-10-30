@@ -39,7 +39,6 @@ public class 쉬운최단거리 {
                 queue.add(new int[]{nextX,nextY});
             }
 
-
         }
 
     }
