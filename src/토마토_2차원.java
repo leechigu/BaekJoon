@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class 토마토 {
+public class 토마토_2차원 {
 
     static int[][] pos = new int[][]{{1,0},{0,1},{-1,0},{0,-1}};
 
