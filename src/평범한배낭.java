@@ -18,8 +18,8 @@ public class 평범한배낭 {
             return 0;
         //포함
         int n1 = 0;
-        if(w + arr[i][1]<=k) {
-            n1 = arr[i][0] + go(i + 1, w + arr[i][1]);
+        if(w + arr[i][0]<=k) {
+            n1 = arr[i][1] + go(i + 1, w + arr[i][0]);
         }
         //미포함
         int n2 = go(i+1,w);
@@ -35,19 +35,15 @@ public class 평범한배낭 {
         n = Integer.parseInt(splitStr[0]);
         k = Integer.parseInt(splitStr[1]);
 
-        arr = new int[n][2];
+        arr = new int[n+1][2];
         dp = new int[n+1][k+1];
-        for(int i=0;i<n;i++){
+        for(int i=1;i<=n;i++){
             splitStr = br.readLine().split(" ");
             int a = Integer.parseInt(splitStr[0]);
             int b = Integer.parseInt(splitStr[1]);
             arr[i][0] = a;
             arr[i][1] = b;
         }
-
-
-
-
 
         System.out.println(go(0,0));
 
