@@ -2,11 +2,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class 평범한배낭 {
+public class 평범한배낭_실패 {
     static int[][] arr;
     static int n;
     static int k;
     static int[][] dp;
+
+    static int go(int i,int w){
+
+        if(dp[i][w]>0)
+            return dp[i][w];
+
+        if(i==n)
+            return 0;
+        //포함
+        int n1 = 0;
+        if(w + arr[i][0]<=k) {
+            n1 = arr[i][1] + go(i + 1, w + arr[i][0]);
+        }
+        //미포함
+        int n2 = go(i+1,w);
+        return dp[i][w] = Math.max(n1,n2);
+    }
 
     public static void main(String[] args) throws IOException {
 
@@ -19,7 +36,6 @@ public class 평범한배낭 {
 
         arr = new int[n+1][2];
         dp = new int[n+1][k+1];
-
         for(int i=0;i<n;i++){
             splitStr = br.readLine().split(" ");
             int a = Integer.parseInt(splitStr[0]);
@@ -28,23 +44,7 @@ public class 평범한배낭 {
             arr[i][1] = b;
         }
 
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=k;j++){
-                int a = dp[i-1][j];
-                int b = 0;
-                if(j-arr[i-1][0]>=0){
-                    b = dp[i-1][j-arr[i-1][0]]+arr[i-1][1];
-                }
-                dp[i][j] = Math.max(a,b);
-            }
-        }
+        System.out.println(go(0,0));
 
-/*        for(int i=1;i<=n;i++){
-            for(int j=1;j<=k;j++){
-                System.out.print(dp[i][j]+" ");
-            }
-            System.out.println();
-        }*/
-        System.out.print(dp[n][k]);
     }
 }
