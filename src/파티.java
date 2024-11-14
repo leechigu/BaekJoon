@@ -104,7 +104,6 @@ public class 파티 {
 
             lists[a].add(new int[]{b,val});
         }
-
         bfs(x);
 
         for(int i=1;i<min.length;i++){
