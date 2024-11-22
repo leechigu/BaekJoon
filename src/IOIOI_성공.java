@@ -10,11 +10,11 @@ public class IOIOI_성공 {
 
         int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
-
         int answer = 0;
 
         String str = br.readLine();
         char[] strArr = str.toCharArray();
+
         int count = 0;
         for(int i=1;i<m-1;i++){
             if(strArr[i-1]=='I'&&strArr[i]=='O'&&strArr[i+1]=='I'){
