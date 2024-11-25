@@ -15,10 +15,7 @@ public class 헌내기는친구가필요해 {
     static boolean[][] isVisitied;
     static int answer = 0;
     static void dfs(int x,int y){
-        if(x<=0||x>=m)
-            return;
-        if(y<=0||y>=n)
-            return;
+
 
         if(map[y][x]=='P'){
             answer++;
@@ -27,9 +24,17 @@ public class 헌내기는친구가필요해 {
         for(int i = 0; i <4; i++){
             int nextX = x+pos[i][0];
             int nextY = y+pos[i][1];
+
+            if(nextX<=0||nextX>m)
+                continue;
+            if(nextY<=0||nextY>n)
+                continue;
+
             if(isVisitied[nextY][nextX]){
                 continue;
             }
+
+
             isVisitied[nextY][nextX] = true;
 
             if(map[nextY][nextX]=='X')
