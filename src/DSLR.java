@@ -8,70 +8,73 @@ import java.util.StringTokenizer;
 public class DSLR {
 
     static boolean[] isVisited;
-    static String bfs(int cur, int target){
 
-        Queue<String[]> queue = new LinkedList<>();
-        queue.add(new String[]{String.valueOf(cur),""});
+    static String bfs(int cur, int target) {
+        Queue<int[]> queue = new LinkedList<>();
+        Queue<String> operations = new LinkedList<>();
 
-        String answer ="";
+        queue.add(new int[]{cur, 0}); // [현재 값, 연산 수]
+        operations.add("");
 
-        while(!queue.isEmpty()){
+        isVisited[cur] = true;
 
-            String[] poll = queue.poll();
-            String valStr = poll[0];
-            int val = Integer.parseInt(valStr);
-            String curStr = poll[1];
+        while (!queue.isEmpty()) {
+            int[] poll = queue.poll();
+            int val = poll[0];
+            String curOps = operations.poll();
 
-            if(val==target){
-                answer = curStr;
-                break;
+            if (val == target) {
+                return curOps;
             }
 
-            isVisited[val] = true;
+            // D
+            int doubleVal = (val * 2) % 10000;
+            if (!isVisited[doubleVal]) {
+                isVisited[doubleVal] = true;
+                queue.add(new int[]{doubleVal, val});
+                operations.add(curOps + "D");
+            }
 
-            //D
-            int doubleVal = (val*2)%10000;
-            if(!isVisited[doubleVal])
-                queue.add(new String[]{String.valueOf(doubleVal),curStr+"D"});
+            // S
+            int minusOneVal = val == 0 ? 9999 : val - 1;
+            if (!isVisited[minusOneVal]) {
+                isVisited[minusOneVal] = true;
+                queue.add(new int[]{minusOneVal, val});
+                operations.add(curOps + "S");
+            }
 
-            //S
-            int minusOneVal = val==0?9999:val-1;
-            if(!isVisited[minusOneVal])
-                queue.add(new String[]{String.valueOf(minusOneVal),curStr+"S"});
+            // L
+            int lVal = (val % 1000) * 10 + (val / 1000);
+            if (!isVisited[lVal]) {
+                isVisited[lVal] = true;
+                queue.add(new int[]{lVal, val});
+                operations.add(curOps + "L");
+            }
 
-            //L
-            String lStr = valStr.substring(1);
-            lStr= lStr + valStr.charAt(0);
-            if(!isVisited[Integer.parseInt(lStr)])
-                queue.add(new String[]{lStr,curStr+"L"});
-
-            //R
-            String RStr = valStr.substring(0,valStr.length()-1);
-            RStr = valStr.charAt(valStr.length()-1) + RStr;
-            if(!isVisited[Integer.parseInt(RStr)])
-                queue.add(new String[]{RStr,curStr+"R"});
-
+            // R
+            int rVal = (val % 10) * 1000 + (val / 10);
+            if (!isVisited[rVal]) {
+                isVisited[rVal] = true;
+                queue.add(new int[]{rVal, val});
+                operations.add(curOps + "R");
+            }
         }
-
-
-        return answer;
+        return "";
     }
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
 
-        while(t-->0){
-            isVisited = new boolean[10001];
+        while (t-- > 0) {
+            isVisited = new boolean[10000];
             StringTokenizer st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
 
             String answer = bfs(a, b);
             sb.append(answer).append("\n");
-
         }
         System.out.print(sb);
     }
