@@ -23,25 +23,26 @@ public class 알파벳 {
         max = Math.max(max,depth);
 
         for(int i=0;i<4;i++){
+
             int nextY = y + pos[i][0];
             int nextX = x + pos[i][1];
-            if(nextY<=0||nextY>r){
+
+            if(nextY<=0||nextY>r)
                 continue;
-            }
-            if(nextX<=0||nextX>c) {
+            if(nextX<=0||nextX>c)
                 continue;
-            }
-            if(isVisited[nextY][nextX]){
+            if(isVisited[nextY][nextX])
                 continue;
-            }
-            if(set.contains(arr[nextY][nextX])){
+            if(set.contains(arr[nextY][nextX]))
                 continue;
-            }
+
+
             isVisited[nextY][nextX] = true;
             set.add(arr[nextY][nextX]);
             dfs(nextY,nextX,depth+1);
             set.remove(arr[nextY][nextX]);
             isVisited[nextY][nextX] = false;
+
         }
     }
 
