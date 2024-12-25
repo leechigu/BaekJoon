@@ -14,6 +14,7 @@ public class 빗물 {
         int w = Integer.parseInt(st.nextToken());
 
 
+
         st = new StringTokenizer(br.readLine());
         int[] arr = new int[w];
         for(int i=0;i<w;i++){
