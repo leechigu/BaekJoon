@@ -119,6 +119,7 @@ public class 뱀 {
             moveList.add(new Move(second,dir));
         }
 
+
         deque = new ArrayDeque<>();
         deque.add(new int[]{1,1});
         map[1][1] = -1;
