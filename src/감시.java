@@ -90,11 +90,7 @@ public class 감시 {
             int[][] nextMap = cctvCal(map,i,posX,posY,cctvLevel);
             dfs(nextMap,indx+1);
         }
-
-
     }
-
-
 
     public static void main(String[] args) throws IOException {
         cctvGo[1] = new int[][]{{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
