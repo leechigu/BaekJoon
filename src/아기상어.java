@@ -11,7 +11,6 @@ public class 아기상어 {
     static int x;
     static int y;
     static int level;
-
     static List<int[]> fishList = new ArrayList<>();
 
     static boolean check(){
@@ -59,10 +58,8 @@ public class 아기상어 {
     }
 
     static int bfs(int targetX,int targetY){
-
         Queue<int[]> queue = new LinkedList<>();
         queue.add(new int[]{x,y,0});
-        int answer = -1;
         boolean[][] isVisited = new boolean[n][n];
         while(!queue.isEmpty()){
             int[] cur = queue.poll();
@@ -72,7 +69,6 @@ public class 아기상어 {
             if(curX==targetX&&curY==targetY){
                 return curVal;
             }
-
             for(int i=0;i<4;i++){
                 int nextX = curX+pos[i][0];
                 int nextY = curY+pos[i][1];
@@ -93,10 +89,8 @@ public class 아기상어 {
     }
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = null;
-
         n = Integer.parseInt(br.readLine());
         map = new int[n][n];
         level = 2;
@@ -130,8 +124,6 @@ public class 아기상어 {
             answer+=dis;
             x=fish[0];
             y=fish[1];
-            //System.out.println(x + " "+ y);
-
             eatCnt++;
             map[y][x] = 0;
             if(eatCnt==level){

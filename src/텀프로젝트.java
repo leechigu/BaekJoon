@@ -1,64 +1,67 @@
-import javax.swing.text.html.ListView;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
-public class 텀프로젝트{
-    static int n;
-    static int[] arr;
-    static boolean[] isTeam;
-    static boolean[] visited;
-    static int answer;
-    public static void dfs(int cur){
+public class 텀프로젝트 {
 
-        if(isTeam[cur]){
+    public static int[] parent;
+    public static boolean[] answer;
+
+
+    public static void findRoot(int cur, int start, Set<Integer> set){
+
+        set.add(cur);
+
+        if(cur==start){
+            for(int num : set){
+                //System.out.println("cur = "+cur+" start = "+start + " num  = "+num);
+                answer[num] = true;
+            }
             return;
         }
 
-        if(visited[cur]){
-            isTeam[cur] = true;
-            answer--;
+        if(parent[cur]!=cur&&!set.contains(parent[cur])){
+            findRoot(parent[cur],start,set);
         }
-        visited[cur] = true;
-        dfs(arr[cur]);
-        isTeam[cur] = true;
-        visited[cur] = false;
-
     }
+
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int t  = Integer.parseInt(br.readLine());
+        StringTokenizer st;
         StringBuilder sb = new StringBuilder();
+
+        int t = Integer.parseInt(br.readLine());
         while(t-->0){
-            n= Integer.parseInt(br.readLine());
-            arr = new int[n];
-            isTeam = new boolean[n];
-            visited = new boolean[n];
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(br.readLine());
 
-            answer = n;
-            for(int i =0; i<n; i++){
-                arr[i] = Integer.parseInt(st.nextToken())-1;
-                if(arr[i] == i) {
-                    isTeam[i] = true;
-                    answer--;
-                }
-            }
-            for(int i =0; i<n; i++){
-                if(!isTeam[i]){
-                    dfs(i);
-                }
+            parent = new int[n+1];
+            answer = new boolean[n+1];
+
+            st = new StringTokenizer(br.readLine());
+            for(int i=1;i<=n;i++){
+                parent[i] = Integer.parseInt(st.nextToken());
             }
 
-            sb.append(answer).append("\n");
+            for(int i=1;i<=n;i++){
+                if(answer[i]){
+                    continue;
+                }
+                findRoot(parent[i],i,new HashSet<>());
+            }
 
+            int cnt = 0;
+            for(int i=1;i<=n;i++){
+                if(!answer[i]){
+                    cnt++;
+                }
+            }
+
+            sb.append(cnt).append("\n");
         }
-        System.out.print(sb.toString());
+        System.out.print(sb);
+
     }
 }

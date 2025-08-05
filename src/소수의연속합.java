@@ -42,7 +42,6 @@ public class 소수의연속합 {
             if(right==sosuCnt) {
                 break;
             }
-            if(sum>n){
                 sum-=sosuList.get(left);
                 left++;
             }else{

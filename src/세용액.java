@@ -6,42 +6,54 @@ import java.util.StringTokenizer;
 
 public class 세용액 {
 
-    static int n;
-    static long[] arr;
-
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        arr = new long[n];
+
+        long[] arr = new long[n];
 
         for(int i=0;i<n;i++){
-            arr[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Long.parseLong(st.nextToken());
         }
+
         Arrays.sort(arr);
 
+        int left = 0;
+        int right = n-1;
         long min = Long.MAX_VALUE;
         String answer = "";
 
-        for(int i=0;i<n-1;i++){
-            int a = i;
-            int left = i+1;
-            int right = n-1;
-            while(left<right){
-                long sum = arr[a] + arr[left] + arr[right];
-                if(Math.abs(sum)<min){
-                    min = Math.abs(sum);
-                    answer = arr[a] +" "+ arr[left]+ " " + arr[right];
+        while(true){
+            if(right-left<1){
+                break;
+            }
+            long sum = 0;
+
+            if(Math.abs(arr[left])>Math.abs(arr[right])){
+                for(int mid=left+1;mid<=right-1;mid++){
+                    sum = arr[left] + arr[mid] + arr[right];
+                    if(min>Math.abs(sum)) {
+                        min = Math.abs(sum);
+                        System.out.println(min);
+                        answer = arr[left] + " " + arr[mid] + " " + arr[right];
+                    }
                 }
-                if(sum<0){
-                    left++;
+                left++;
+            }else{
+                for(int mid=left+1;mid<=right-1;mid++) {
+                    sum = arr[left] + arr[mid] + arr[right];
+                    if (min > Math.abs(sum)) {
+                        min = Math.abs(sum);
+                        answer = arr[left] + " " + arr[mid] + " " + arr[right];
+                    }
                 }
-                else{
-                    right--;
-                }
+                right--;
             }
         }
+
         System.out.print(answer);
+
     }
 }
