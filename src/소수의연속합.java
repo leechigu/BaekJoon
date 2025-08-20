@@ -38,29 +38,18 @@ public class 소수의연속합 {
         int right = 0;
         int sum = 0;
         int answer = 0;
-
         while(true){
-
             if(right==sosuCnt) {
-                if(left==right)
-                    break;
+                break;
+            }
                 sum-=sosuList.get(left);
                 left++;
+            }else{
                 if(sum==n){
                     answer++;
                 }
-
-            }else {
-                if (sum > n || right >= sosuCnt) {
-                    sum -= sosuList.get(left);
-                    left++;
-                } else {
-                    if (sum == n) {
-                        answer++;
-                    }
-                    sum += sosuList.get(right);
-                    right++;
-                }
+                sum+=sosuList.get(right);
+                right++;
             }
         }
         System.out.println(answer);
