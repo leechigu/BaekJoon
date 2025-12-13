@@ -38,7 +38,7 @@ public class 소수의연속합 {
         int right = 0;
         int sum = 0;
         int answer = 0;
-        while(true){
+/*        while(true){
             if(right==sosuCnt) {
                 break;
             }
@@ -52,7 +52,7 @@ public class 소수의연속합 {
                 right++;
             }
         }
-        System.out.println(answer);
+        System.out.println(answer);*/
 
     }
 }

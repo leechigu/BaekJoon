@@ -1,50 +1,92 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class 구간합구하기 {
 
+    static int n;
+    static int size;
+    static long[] node;
+    static StringBuilder sb = new StringBuilder();
+
+    public static long init(int indx){
+        if(indx>=size){
+            return node[indx];
+        }
+        return node[indx] = init(indx*2)+init(indx*2+1);
+    }
+
+    public static void update(int indx){
+        if(indx==0){
+            return;
+        }
+        node[indx] = node[indx*2] + node[indx*2+1];
+        update(indx/2);
+    }
+
+    public static void search(int st, int ed){
+
+        st+=size-1;
+        ed+=size-1;
+
+        long sum = 0;
+        while(true){
+            if(st%2==1){
+                sum+=node[st];
+                st++;
+            }
+            if(ed%2==0){
+                sum+=node[ed];
+                ed--;
+            }
+            if(st>ed){
+                break;
+            }
+            st/=2;
+            ed/=2;
+        }
+        sb.append(sum).append("\n");
+    }
+
     public static void main(String[] args) throws IOException {
-        StringBuilder sb = new StringBuilder();
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String input = br.readLine();
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        String[] splitStr = input.split(" ");
-        int n = Integer.parseInt(splitStr[0]);
-        int m = Integer.parseInt(splitStr[1]);
+        n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-        int[][] map = new int[n+1][n+1];
-        int[][] dp = new int[n+1][n+1];
-
-        for(int i=1;i<=n;i++){
-            splitStr = br.readLine().split(" ");
-            for(int j=1;j<=n;j++)
-                map[i][j] = Integer.parseInt(splitStr[j-1]);
-        }
-        dp[0][0] = map[0][0];
-        for(int i=1;i<=n;i++){
-            dp[i][0] = map[i][0]+dp[i-1][0];
-            dp[0][i] = map[0][i]+dp[0][i-1];
+        size = 1;
+        while(size<n){
+            size*=2;
         }
 
-        for(int i=1;i<=n;i++)
-            for(int j=1;j<=n;j++)
-                dp[i][j] = dp[i-1][j]+dp[i][j-1]-dp[i-1][j-1]+map[i][j];
+        node  = new long[size*2];
 
-
-        for(int i=0;i<m;i++){
-            input = br.readLine();
-            splitStr = input.split(" ");
-
-            int y1 = Integer.parseInt(splitStr[0]);
-            int x1 = Integer.parseInt(splitStr[1]);
-            int y2 = Integer.parseInt(splitStr[2]);
-            int x2 = Integer.parseInt(splitStr[3]);
-            int answer = dp[y2][x2]-dp[y1-1][x2]-dp[y2][x1-1]+dp[y1-1][x1-1];
-
-            sb.append(answer).append("\n");
+        for(int i=0;i<n;i++){
+            node[i+size] = Long.parseLong(br.readLine());
         }
-        System.out.println(sb);
 
+        init(1);
+
+        for(int i=0;i<m+k;i++){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+
+            if(a==1){
+                int b = Integer.parseInt(st.nextToken());
+                long c = Long.parseLong(st.nextToken());
+                node[b+size-1] = c;
+                update((b+size-1)/2);
+
+            }else if(a==2){
+                int b = Integer.parseInt(st.nextToken());
+                int c = Integer.parseInt(st.nextToken());
+                search(b,c);
+            }
+        }
+        System.out.print(sb.toString());
     }
 }
