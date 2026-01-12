@@ -5,119 +5,123 @@ import java.util.*;
 
 public class 나무재테크 {
 
-    static int[][] a;
     static int[][] map;
-    static int n,m,k;
+    static int[][] next;
+    static Deque<Integer>[][] treeInfo;
+    static int n;
 
-    static int[][] pos = new int[][]{{1,0},{0,1},{-1,0},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
-    static Map<String, List<Integer>> tree = new HashMap<>();
+    static int[][] pos = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
 
-    static int treeCnt=0;
+    static void eatOrDie(){
 
-    static void go(){
-
-        Set<String> set = new HashSet<>(tree.keySet());
-
-        for(String key : set) {
-            List<Integer> list = tree.get(key);
-            List<Integer> newList = new ArrayList<>();
-            List<Integer> deadList = new ArrayList<>();
-            //Collections.sort(list);
-
-            int i = Integer.parseInt(key.split(",")[0]);
-            int j = Integer.parseInt(key.split(",")[1]);
-
-            for (int age : list) {
-                if (map[i][j] >= age) {
-                    map[i][j] -= age;
-                    newList.add(0,(age + 1));
-                } else {
-                    deadList.add(age);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                Deque<Integer> queue = treeInfo[i][j];
+                Deque<Integer> newQueue = new ArrayDeque<>();
+                int oldSum = 0;
+                for(int treeAge : queue){
+                    if(treeAge<=map[i][j]){
+                        map[i][j] -= treeAge;
+                        newQueue.addLast(treeAge+1);
+                    }else{
+                        oldSum += treeAge/2;
+                    }
                 }
-            }
-
-            tree.put(key, newList);
-
-            treeCnt -= deadList.size();
-            for (int deadAge : deadList) {
-                map[i][j] += deadAge / 2;
+                treeInfo[i][j] = newQueue;
+                map[i][j] += oldSum;
             }
         }
+    }
 
-        set = new HashSet<>(tree.keySet());
+    static void addTree(int y,int x){
+        for(int i=0;i<pos.length;i++){
+            int nextY = y + pos[i][0];
+            int nextX = x + pos[i][1];
 
-        for(String key : set) {
-            int i = Integer.parseInt(key.split(",")[0]);
-            int j = Integer.parseInt(key.split(",")[1]);
-            List<Integer> list = tree.get(key);
-            for (int age : list) {
-                if (age >= 5 && age % 5 == 0) {
-                    for (int k = 0; k < 8; k++) {
-                        int nextY = i + pos[k][0];
-                        int nextX = j + pos[k][1];
-                        if (nextY < 0 || nextY >= n) continue;
-                        if (nextX < 0 || nextX >= n) continue;
-                        String nextKey = nextY + "," + nextX;
-                        if (tree.containsKey(nextKey)) {
-                            tree.get(nextKey).add(0,1);
-                        } else {
-                            List<Integer> nextList = new ArrayList<>();
-                            nextList.add(1);
-                            tree.put(nextKey, nextList);
-                        }
-                        treeCnt++;
+            if(nextY<0|| nextY>=n)
+                continue;
+            if(nextX<0|| nextX>=n)
+                continue;
+            treeInfo[nextY][nextX].addFirst(1);
+        }
+    }
+
+    static void autumn(){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                Deque<Integer> queue = treeInfo[i][j];
+                for(int treeAge : queue){
+                    if(treeAge%5==0){
+                        addTree(i,j);
                     }
                 }
             }
         }
-
-        for(int i=0;i<n;i++){
-            for(int j=0;j<n;j++){
-                map[i][j] += a[i][j];
-            }
-        }
-
-
     }
 
+    static void winter(){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                map[i][j] += next[i][j];
+            }
+        }
+    }
+
+    static void process(){
+        eatOrDie();
+        autumn();
+        winter();
+    }
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        k = Integer.parseInt(st.nextToken());
 
-        a = new int[n][n];
-        map = new int[n][n];
+        n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+
+        treeInfo = new Deque[n][n];
 
         for(int i=0;i<n;i++){
-            Arrays.fill(map[i],5);
-            st = new StringTokenizer(br.readLine());
             for(int j=0;j<n;j++){
-                a[i][j] = Integer.parseInt(st.nextToken());
+                treeInfo[i][j] = new ArrayDeque<>();
             }
         }
 
-        treeCnt = m;
+        map = new int[n][n];
+        next = new int[n][n];
+        for(int i=0;i<n;i++){
+            Arrays.fill(map[i],5);
+        }
+        for(int i=0;i<n;i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=0;j<n;j++){
+                next[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
         for(int i=0;i<m;i++){
             st = new StringTokenizer(br.readLine());
             int x = Integer.parseInt(st.nextToken())-1;
             int y = Integer.parseInt(st.nextToken())-1;
             int z = Integer.parseInt(st.nextToken());
-            String key = x+","+y;
-            if(tree.containsKey(key)){
-                tree.get(key).add(z);
-            }else{
-                List<Integer> list = new ArrayList<>();
-                list.add(z);
-                tree.put(key,list);
+            treeInfo[x][y].add(z);
+        }
+
+        for(int i=0;i<k;i++){
+            process();
+        }
+
+        int answer = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                answer +=treeInfo[i][j].size();
             }
         }
-        for(int i=0;i<k;i++){
-            go();
-        }
-        System.out.print(treeCnt);
+
+        System.out.print(answer);
+
     }
 }
