@@ -14,20 +14,20 @@ public class 이차원배열과연산 {
     public static int cal(){
         int answer = 0;
         while(true){
-            if(answer==100){
+            if(answer==101){
                 answer = -1;
                 break;
             }
-            if(map[r][c] ==k){
+            if(map[r][c]==k){
                 break;
             }
-
             if(n>=m){
                 R();
             }else{
                 C();
             }
             answer++;
+
         }
         return answer;
     }
@@ -44,6 +44,8 @@ public class 이차원배열과연산 {
             numSet = new HashSet<>();
             for(int j=0;j<m;j++){
                 int cur = map[i][j];
+                if(cur==0)
+                    continue;
                 numArr[cur]++;
                 numSet.add(cur);
             }
@@ -66,7 +68,7 @@ public class 이차원배열과연산 {
                 }
             });
 
-            nextM = Math.max(numSet.size()*2,nextM);
+            nextM = Math.max(Math.min(100,numSet.size()*2),nextM);
 
             for(int j=0;j<100;j++){
                 map[i][j] = 0;
@@ -75,22 +77,20 @@ public class 이차원배열과연산 {
             for(int j=0;j<numSet.size();j++){
                 map[i][j*2]=temp[j][0];
                 map[i][j*2+1] = temp[j][1];
-                System.out.println(temp[j][0] + " : "+ temp[j][1]);
             }
-            System.out.println("---------------------------");
         }
         m = nextM;
     }
 
     static void C(){
-
         int nextN= -1;
-
         for(int j=0;j<m;j++){
             numArr = new int[101];
             numSet = new HashSet<>();
             for(int i=0;i<n;i++){
                 int cur = map[i][j];
+                if(cur==0)
+                    continue;
                 numArr[cur]++;
                 numSet.add(cur);
             }
@@ -108,23 +108,21 @@ public class 이차원배열과연산 {
                     if(o1[1]==o2[1]){
                         return o1[0]-o2[0];
                     }
-
                     return o1[1]-o2[1];
                 }
             });
 
-            nextN = Math.max(numSet.size()*2,nextN);
+            nextN = Math.max(Math.min(100,numSet.size()*2),nextN);
 
             for(int i=0;i<100;i++){
                 map[i][j] = 0;
             }
 
             for(int i=0;i<numSet.size();i++){
-                map[i*2][j]=temp[i][0];
+                map[i*2][j] = temp[i][0];
                 map[i*2+1][j] = temp[i][1];
-                System.out.println(temp[i][0] + " : "+ temp[i][1]);
             }
-            System.out.println("---------------------------");
+
         }
         n = nextN;
     }
@@ -144,9 +142,6 @@ public class 이차원배열과연산 {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-
-        System.out.println(cal());
-
-
+        System.out.print(cal());
     }
 }
