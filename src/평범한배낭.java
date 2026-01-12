@@ -17,7 +17,7 @@ public class 평범한배낭 {
         n = Integer.parseInt(splitStr[0]);
         k = Integer.parseInt(splitStr[1]);
 
-        arr = new int[n+1][2];
+        arr = new int[n+1][ 2];
         dp = new int[n+1][k+1];
 
         for(int i=0;i<n;i++){

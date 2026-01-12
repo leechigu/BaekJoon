@@ -29,30 +29,6 @@ public class 소수의연속합 {
     }
     public static void main(String[] args) throws IOException {
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-
-        List<Integer> sosuList = getSosuList(n+1);
-        int sosuCnt = sosuList.size();
-        int left = 0;
-        int right = 0;
-        int sum = 0;
-        int answer = 0;
-        while(true){
-            if(right==sosuCnt) {
-                break;
-            }
-                sum-=sosuList.get(left);
-                left++;
-            }else{
-                if(sum==n){
-                    answer++;
-                }
-                sum+=sosuList.get(right);
-                right++;
-            }
-        }
-        System.out.println(answer);
 
     }
 }
