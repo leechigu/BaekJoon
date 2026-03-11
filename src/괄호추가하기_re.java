@@ -88,5 +88,7 @@ public class 괄호추가하기_re {
         }
         process(nums,opes,0);
         System.out.print(max);
+
+
     }
 }
