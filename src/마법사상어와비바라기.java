@@ -87,21 +87,9 @@ public class 마법사상어와비바라기 {
     }
 
     static void move(int[][] newCloudInfo,int s, int d, int y, int x){
-        int[] p = pos[d];
-
-        int nextY = y;
-        int nextX = x;
-
-        while(s-->0){
-            nextY += p[0];
-            nextX += p[1];
-
-            if(nextY<0) nextY=n-1;
-            if(nextY==n) nextY=0;
-
-            if(nextX<0) nextX=n-1;
-            if(nextX==n) nextX=0;
-        }
+        int dist = s%n;
+        int nextY = (y+pos[d][0] * dist + n) %n;
+        int nextX = (x+pos[d][1] * dist + n) %n;
         newCloudInfo[nextY][nextX] = 1;
     }
 
